@@ -14,11 +14,10 @@ class Products(models.Model):
 class ProductCategory(models.Model):
     category_id = models.CharField(max_length=100, unique=True)
     category_name = models.CharField(max_length=100)
-    category_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.category_name
-
+    
 class ProductDetails(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
@@ -27,3 +26,4 @@ class ProductDetails(models.Model):
 
     def __str__(self):
         return f"{self.product.product_name} - {self.category.category_name}"
+    

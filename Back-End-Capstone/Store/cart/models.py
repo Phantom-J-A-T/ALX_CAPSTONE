@@ -5,8 +5,8 @@ from orders.models import Orders
 
 # Create your models here.
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=100, unique=True)
-    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    cart = models.CharField(max_length=100, unique=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     product_details = models.ForeignKey(ProductDetails, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)

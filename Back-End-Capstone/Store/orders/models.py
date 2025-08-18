@@ -5,7 +5,7 @@ from users.models import UserProfile
 # Create your models here.
 class Orders(models.Model):
     order_id = models.CharField(max_length=100, unique=True)
-    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     product_details = models.ForeignKey(ProductDetails, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
