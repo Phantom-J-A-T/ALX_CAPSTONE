@@ -20,6 +20,7 @@ class UserListView(generics.ListAPIView):
     def get_queryset(self):
         return User.objects.all()  # This will return all users in the database
 
+# A more Detailed version of the User List
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
