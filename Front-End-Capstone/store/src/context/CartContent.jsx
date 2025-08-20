@@ -1,16 +1,26 @@
-import { createContext, useState } from "react";
+import { useCartStore } from "../store/cart";
 
-export const CartContext = createContext();
-
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-
-  const addToCart = (product) => setCart([...cart, product]);
-  const removeFromCart = (id) => setCart(cart.filter((item) => item.id !== id));
+function CartContent() {
+  const { cart, removeFromCart } = useCartStore();
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
-      {children}
-    </CartContext.Provider>
+    <div>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        cart.map((item, index) => (
+          <div key={index} className="flex justify-between border p-2">
+            <span>{item.name} (${item.price})</span>
+            <button
+              onClick={() => removeFromCart(item.id)}
+              className="text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+        ))
+      )}
+    </div>
   );
 }
+export default CartContent;

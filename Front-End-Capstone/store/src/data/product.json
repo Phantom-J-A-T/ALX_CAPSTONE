@@ -1,0 +1,6 @@
+[
+    { "id": 1, "name": "Laptop", "price": 1200, "image": "/assets/laptop.jpg", "description": "High-performance laptop" },
+    { "id": 2, "name": "Headphones", "price": 150, "image": "/assets/headphones.jpg", "description": "Noise-cancelling headphones" },
+    { "id": 3, "name": "Smartphone", "price": 800, "image": "/assets/phone.jpg", "description": "Latest-gen smartphone" }
+  ]
+  

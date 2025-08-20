@@ -1,18 +1,15 @@
 import { Link } from "react-router-dom";
 
-function Navbar() {
+export default function NavBar() {
   return (
-    <nav className="bg-gray-800 text-white p-4 flex justify-between">
-      <Link to="/" className="font-bold text-lg">MyShop</Link>
-      <div className="space-x-4">
-        <Link to="/" className="hover:text-gray-300">Home</Link>
-        <Link to="/products" className="hover:text-gray-300">Products</Link>
-        <Link to="/cart" className="hover:text-gray-300">Cart</Link>
-        <Link to="/checkout" className="hover:text-gray-300">Checkout</Link>
-        <Link to="/login" className="hover:text-gray-300">Login</Link>
-      </div>
+    <nav className="flex justify-between bg-gray-900 text-white p-4">
+      <h1 className="font-bold text-xl">E-Store</h1>
+      <ul className="flex gap-4">
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/products">Products</Link></li>
+        <li><Link to="/cart">Cart</Link></li>
+        <li><Link to="/login">Login</Link></li>
+      </ul>
     </nav>
   );
 }
-
-export default Navbar;
