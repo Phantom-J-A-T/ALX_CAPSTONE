@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../utils/api";
 
 function Signup() {
   const [form, setForm] = useState({
@@ -8,13 +9,12 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
-
   const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
@@ -22,11 +22,18 @@ function Signup() {
       return;
     }
 
-    // ✅ Here you could also call an API to register the user
-    alert(`Account created for ${form.username}!`);
+    try {
+      await registerUser({
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      });
 
-    // Redirect to login after signup
-    navigate("/login");
+      alert("Account created successfully!");
+      navigate("/login"); // redirect after success
+    } catch (error) {
+      alert(error.response?.data?.message || "Signup failed!");
+    }
   };
 
   return (
