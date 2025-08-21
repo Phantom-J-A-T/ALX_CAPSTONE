@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { registerUser } from "../utils/api";
+import { signup } from "../api"; // adjust path if needed
 
 function Signup() {
   const [form, setForm] = useState({
@@ -9,30 +8,32 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
-  const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleChange = (event) =>
+    setForm({ ...form, [event.target.name]: event.target.value });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
 
     try {
-      await registerUser({
+      const data = await signup({
         username: form.username,
         email: form.email,
         password: form.password,
       });
-
-      alert("Account created successfully!");
-      navigate("/login"); // redirect after success
-    } catch (error) {
-      alert(error.response?.data?.message || "Signup failed!");
+      setSuccess("Account created successfully!");
+      setError("");
+      console.log("Signup success:", data);
+    } catch (err) {
+      setError(err.detail || "Signup failed. Try again.");
     }
   };
 
@@ -45,6 +46,7 @@ function Signup() {
         value={form.username}
         onChange={handleChange}
         className="border p-2 w-full"
+        required
       />
       <input
         type="email"
@@ -53,6 +55,7 @@ function Signup() {
         value={form.email}
         onChange={handleChange}
         className="border p-2 w-full"
+        required
       />
       <input
         type="password"
@@ -61,6 +64,7 @@ function Signup() {
         value={form.password}
         onChange={handleChange}
         className="border p-2 w-full"
+        required
       />
       <input
         type="password"
@@ -69,7 +73,10 @@ function Signup() {
         value={form.confirmPassword}
         onChange={handleChange}
         className="border p-2 w-full"
+        required
       />
+      {error && <p className="text-red-500">{error}</p>}
+      {success && <p className="text-green-500">{success}</p>}
       <button
         type="submit"
         className="bg-green-500 text-white px-4 py-2 rounded"

@@ -1,25 +1,22 @@
+// src/api.js
 import axios from "axios";
 
-// Adjust baseURL to your Django backend URL
+// Base URL of your Django backend
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "http://127.0.0.1:8000/api", //Can be adjusted depending on the host used
 });
 
-// ===== Auth =====
-export const registerUser = async (userData) => {
-  const response = await API.post("/auth/register/", userData);
-  return response.data;
+// Signup API call
+export const signup = async (userData) => {
+  try {
+    const response = await API.post("/users/signup/", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Signup error:", error.response?.data || error.message);
+    throw error.response?.data || error.message;
+  }
 };
 
-export const loginUser = async (credentials) => {
-  const response = await API.post("/auth/login/", credentials);
-  // Save token if DRF returns one
-  if (response.data.token) {
-    localStorage.setItem("token", response.data.token);
-    API.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-  }
-  return response.data;
-};
 
 // ===== Products =====
 export const fetchProducts = async () => {
