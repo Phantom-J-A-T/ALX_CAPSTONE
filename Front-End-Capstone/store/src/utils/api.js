@@ -66,3 +66,17 @@ export const createProduct = async (productData) => {
   const res = await API.post("/products/", productData);
   return res.data;
 };
+
+// Products
+export const fetchProducts = () => API.get("/products/");
+export const fetchProduct = (id) => API.get(`/products/${id}/`);
+export const updateProduct = (id, data) => API.put(`/products/${id}/`, data);
+export const deleteProduct = (id) => API.delete(`/products/${id}/`);
+
+// Categories
+export const fetchCategories = () => API.get("/products/categories/");
+export const createCategory = (data) => API.post("/products/categories/", data);
+
+// Product Details
+export const fetchProductDetails = () => API.get("/products/details/");
+export const createProductDetail = (data) => API.post("/products/details/", data);
