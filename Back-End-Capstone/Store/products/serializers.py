@@ -22,8 +22,11 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    details = ProductDetailsSerializer(source='productdetails_set', many=True, read_only=True)
+    # map model fields to frontend-friendly names
+    name = serializers.CharField(source="product_name")
+    price = serializers.DecimalField(source="product_price", max_digits=10, decimal_places=2)
+    image = serializers.ImageField(source="product_image")
 
     class Meta:
         model = Products
-        fields = '__all__'
+        fields = ["id", "name", "price", "image", "product_description"]
