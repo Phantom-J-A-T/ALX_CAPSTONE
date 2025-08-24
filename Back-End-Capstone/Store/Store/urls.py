@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+def home(request):
+    return redirect('/admin/')  # Redirect to admin page by default
+
 urlpatterns = [
+    path('', home, name='home'),  # Redirect root URL to admin page
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),  # user signup, profile, etc.
     path('api/products/', include('products.urls')),  # product listing, detail, etc.
