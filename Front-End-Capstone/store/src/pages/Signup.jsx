@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signup } from "../api"; // adjust path if needed
+import { signup } from "../utils/api"; // adjust path if needed
 
 function Signup() {
   const [form, setForm] = useState({

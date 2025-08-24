@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { signup, login, getProfile } from "../api";
+import { signup, login, getProfile } from "../utils/api"; // Adjust the import path as needed
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
