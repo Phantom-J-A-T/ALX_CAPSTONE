@@ -1,31 +1,36 @@
 import { useEffect, useState } from "react";
+import { fetchProducts } from "../utils/api";   // ✅ use fetchProducts
 import ProductCard from "../components/ProductCard";
-import { getProducts } from "../utils/api";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
+    const loadProducts = async () => {
       try {
-        const data = await getProducts();
-        setProducts(data);
+        const res = await fetchProducts(); // axios response
+        setProducts(res.data);            // save product list
       } catch (err) {
-        console.error("Failed to fetch products:", err);
+        console.error("Error fetching products:", err);
+        setError("Failed to load products.");
+      } finally {
+        setLoading(false);
       }
-    }
-    fetchData();
+    };
+
+    loadProducts();
   }, []);
 
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {products.length > 0 ? (
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      ) : (
-        <p>No products found</p>
-      )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 }
