@@ -2,9 +2,10 @@ from django.shortcuts import render
 from .serializers import UserSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class UserSignUpView(generics.CreateAPIView):
@@ -62,3 +63,26 @@ def signup(request):
 
     user = User.objects.create_user(username=username, email=email, password=password)
     return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def signup(request):
+    username = request.data.get("username")
+    email = request.data.get("email")
+    password = request.data.get("password")
+
+    if User.objects.filter(username=username).exists():
+        return Response({"error": "Username already exists"}, status=400)
+
+    user = User.objects.create_user(username=username, email=email, password=password)
+    return Response({"message": "User created successfully!"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def profile(request):
+    user = request.user
+    return Response({
+        "username": user.username,
+        "email": user.email,
+        "id": user.id,
+    })
