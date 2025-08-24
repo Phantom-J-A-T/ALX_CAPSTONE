@@ -3,19 +3,18 @@ import axios from "axios";
 
 // Base URL of your Django backend
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api", //Can be adjusted depending on the host used
+  baseURL: "http://127.0.0.1:8000/api",
 });
 
-// Signup API call
-export const signup = async (userData) => {
-  try {
-    const response = await API.post("/users/signup/", userData);
-    return response.data;
-  } catch (error) {
-    console.error("Signup error:", error.response?.data || error.message);
-    throw error.response?.data || error.message;
-  }
-};
+// Signup
+export const signup = (userData) => API.post("/users/signup/", userData);
+
+// Login (JWT)
+export const login = (credentials) => API.post("/token/", credentials);
+
+// Refresh Token
+export const refreshToken = (refresh) =>
+  API.post("/token/refresh/", { refresh });
 
 
 // ===== Products =====
