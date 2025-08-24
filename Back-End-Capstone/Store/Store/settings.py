@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'products',  # Products application
     'users',  # Users application
     'orders',  # Orders application
+    'cart',  # Cart application
+    'rest_framework_simplejwt',  # JWT authentication
 ]
 
 MIDDLEWARE = [
