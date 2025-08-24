@@ -33,6 +33,12 @@ function AdminDashboard() {
     sku: "",
   });
 
+
+if (!user || !user.is_staff) {
+    return <p className="text-red-500">Access denied. Admins only.</p>;
+  }
+  
+
   // Load data
   useEffect(() => {
     fetchProducts().then((res) => setProducts(res.data));
