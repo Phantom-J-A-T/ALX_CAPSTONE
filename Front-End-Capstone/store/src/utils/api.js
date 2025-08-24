@@ -33,7 +33,7 @@ export const refreshToken = async () => {
 // Protected endpoint -> Profile
 export const getProfile = async () => {
   try {
-    const response = await api.get("/users/profile/");
+    const response = await api.get("/users/user-detail/");
     return response.data;
   } catch (error) {
     // If token expired -> try refresh
@@ -49,14 +49,20 @@ export const getProfile = async () => {
 
 
 
-// ===== Products =====
-export const fetchProducts = async () => {
-  const response = await API.get("/products/");
-  return response.data;
+// Fetch all products
+export const getProducts = async () => {
+  const res = await API.get("/products/");
+  return res.data;
 };
 
-// ===== Orders =====
-export const createOrder = async (orderData) => {
-  const response = await API.post("/orders/", orderData);
-  return response.data;
+// Fetch a single product
+export const getProduct = async (id) => {
+  const res = await API.get(`/products/${id}/`);
+  return res.data;
+};
+
+// Create product (for admin use)
+export const createProduct = async (productData) => {
+  const res = await API.post("/products/", productData);
+  return res.data;
 };
