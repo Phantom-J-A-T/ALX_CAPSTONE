@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 # Redirect root ("/") to admin
 def home(request):
     return redirect('admin:index')   # uses Django’s admin namespace
