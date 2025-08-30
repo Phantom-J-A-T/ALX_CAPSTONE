@@ -10,8 +10,8 @@ function Products() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const res = await fetchProducts(); // axios response
-        setProducts(res.data);            // save product list
+        const res = await fetchProducts();
+        setProducts(res.data);          
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Failed to load products.");
