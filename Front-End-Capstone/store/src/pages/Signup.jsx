@@ -38,7 +38,7 @@ function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-md mx-auto border border-blue-500 rounded-md">
       <input
         type="text"
         name="username"

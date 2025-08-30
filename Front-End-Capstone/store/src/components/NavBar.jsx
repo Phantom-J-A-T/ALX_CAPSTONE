@@ -9,20 +9,20 @@ export default function NavBar() {
     cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <nav className="flex justify-between bg-gray-900 text-white p-4 border rounded-md">
+    <nav className="flex justify-between bg-blue-700 text-white p-4 border rounded-md">
       <h1 className="font-bold text-xl">Prince and Princess Store</h1>
 
       <ul className="flex gap-6 items-center">
         <li>
-          <Link to="/" className="hover:text-gray-300">Home</Link>
+          <Link to="/" className="hover:font-bold">Home</Link>
         </li>
         <li>
-          <Link to="/Products" className="hover:text-gray-300">Products</Link>
+          <Link to="/Products" className="hover:font-bold">Products</Link>
         </li>
 
         {/* Cart link with badge */}
         <li className="relative">
-          <Link to="/Cart" className="hover:text-gray-300">
+          <Link to="/Cart" className="hover:font-bold">
             🛒 Cart
           </Link>
           {totalItems > 0 && (
@@ -33,7 +33,7 @@ export default function NavBar() {
         </li>
 
         <li>
-          <Link to="/Login" className="hover:text-gray-300">Login</Link>
+          <Link to="/Login" className="hover:font-bold">Login</Link>
         </li>
       </ul>
     </nav>

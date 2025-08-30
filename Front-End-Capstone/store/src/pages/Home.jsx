@@ -33,7 +33,7 @@ export default function Home() {
         {/* Hero Image */}
         <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
           <img
-            src="https://images.unsplash.com/photo-1607082349566-187342a3c278?auto=format&fit=crop&w=600&q=80"
+            src="https://th.bing.com/th/id/R.282d2750dc90e08e6b0b339064038acd?rik=UZOyE5Q7dOMyYA&riu=http%3a%2f%2fin-beverage.org%2fwp-content%2fuploads%2f2023%2f09%2fCollage2.webp&ehk=UETkUMmBMRhBybHgNT36SeMeRKiAzJvO4oSHvAlVIVs%3d&risl=&pid=ImgRaw&r=0"
             alt="Shopping"
             className="rounded-2xl shadow-lg"
           />
