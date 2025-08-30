@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../store/cart";
-import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function NavBar() {
@@ -48,10 +47,10 @@ export default function NavBar() {
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden flex items-center"
+          className="md:hidden text-2xl font-bold"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? "✖" : "☰"}
         </button>
       </div>
 
