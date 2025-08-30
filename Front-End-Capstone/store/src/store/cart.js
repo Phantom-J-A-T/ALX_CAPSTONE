@@ -1,73 +1,55 @@
 import { create } from "zustand";
-import axios from "axios";
+import {
+  getCart,
+  addToCartAPI,
+  updateCartItem,
+  removeCartItem,
+  clearCart as clearCartAPI,
+} from "../utils/cart";
 
-// API setup
-const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/cart/",
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Backend API calls
-const getCartAPI = () => API.get("/");
-const addToCartAPI = (productId, quantity = 1) =>
-  API.post("/items/", { product_id: productId, quantity });
-const updateCartItemAPI = (itemId, quantity) =>
-  API.patch(`/items/${itemId}/`, { quantity });
-const removeCartItemAPI = (itemId) => API.delete(`/items/${itemId}/`);
-const clearCartAPI = () => API.delete("/clear/");
-
-// Zustand store
 export const useCartStore = create((set, get) => ({
   cart: { items: [], total_price: 0 },
+  loading: false,
 
-  // Fetch cart from backend
   fetchCart: async () => {
+    set({ loading: true });
     try {
-      const { data } = await getCartAPI();
+      const { data } = await getCart();
       set({ cart: data });
-    } catch (error) {
-      console.error("Error fetching cart:", error);
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+    } finally {
+      set({ loading: false });
     }
   },
 
-  // Add product to cart
   addToCart: async (product, quantity = 1) => {
     try {
-      await addToCartAPI(product.id, quantity);
-      await get().fetchCart(); // refresh local state
+      await addToCartAPI(product.id, quantity); // ✅ call API util
+      await get().fetchCart(); // ✅ refresh cart state
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
   },
 
-  // Update item quantity
   updateCartItem: async (itemId, quantity) => {
     try {
-      await updateCartItemAPI(itemId, quantity);
+      await updateCartItem(itemId, quantity);
       await get().fetchCart();
     } catch (error) {
-      console.error("Error updating cart item:", error);
+      console.error("Error updating cart:", error);
     }
   },
 
-  // Remove item
   removeFromCart: async (itemId) => {
     try {
-      await removeCartItemAPI(itemId);
+      await removeCartItem(itemId);
       await get().fetchCart();
     } catch (error) {
       console.error("Error removing cart item:", error);
     }
   },
 
-  // Clear cart
   clearCart: async () => {
     try {
       await clearCartAPI();
