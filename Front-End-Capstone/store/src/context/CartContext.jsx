@@ -50,10 +50,19 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     fetchCart();
   }, []);
+  const addItemByName = async (name, quantity = 1) => {
+    try {
+      // call backend with a name-based API (or a modified addToCart)
+      await addToCart({ name, quantity });  
+      fetchCart();
+    } catch (err) {
+      console.error("Failed to add item by name:", err);
+    }
+  };
 
   return (
     <CartContext.Provider
-      value={{ cart, loading, fetchCart, addItem, updateItem, removeItem, clear }}
+      value={{ cart, loading, fetchCart, addItem, addItemByName, updateItem, removeItem, clear }}
     >
       {children}
     </CartContext.Provider>
