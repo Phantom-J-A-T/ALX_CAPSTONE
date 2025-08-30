@@ -79,10 +79,7 @@ def signup(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) 
-def profile(request):
+def get_user_profile(request):
     user = request.user
-    return Response({
-        "username": user.username,
-        "email": user.email,
-        "id": user.id,
-    })
+    serializer = UserSerializer(user)
+    return Response(serializer.data)

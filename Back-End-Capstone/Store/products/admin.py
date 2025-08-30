@@ -1,19 +1,14 @@
 from django.contrib import admin
-from .models import Products, ProductCategory, ProductDetails
+from .models import Product, Category
 
-@admin.register(Products)
-class ProductsAdmin(admin.ModelAdmin):
-    list_display = ("product_name", "product_price", "product_id")
-    search_fields = ("product_name",)
-    list_filter = ("product_price",)
-
-@admin.register(ProductCategory)
+@admin.register(Category)
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ("category_name", "category_id")
-    search_fields = ("category_name",)
+    list_display = ("id", "name", "description")  # use real fields
+    search_fields = ("name",)
 
-@admin.register(ProductDetails)
-class ProductDetailsAdmin(admin.ModelAdmin):
-    list_display = ("product", "category", "stock_quantity", "sku")
-    search_fields = ("sku",)
-    list_filter = ("category",)
+
+@admin.register(Product)
+class ProductsAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "price", "category", "created_at")  # use real fields
+    list_filter = ("category",)  # filter by category instead of price
+    search_fields = ("name", "description")
