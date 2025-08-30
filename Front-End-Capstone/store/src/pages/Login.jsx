@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../utils/api";
 
 function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,38 +18,62 @@ function Login() {
       localStorage.setItem("refresh", res.data.refresh);
       setError("");
       alert("Login successful!");
+
+      // ✅ Redirect to products or home after login
+      navigate("/Products");
     } catch (err) {
       setError("Invalid username or password");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-md mx-auto">
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={form.username}
-        onChange={handleChange}
-        className="border p-2 w-full"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={handleChange}
-        className="border p-2 w-full"
-        required
-      />
-      {error && <p className="text-red-500">{error}</p>}
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-        Login
-      </button>
-      <p>Don't have an account yet?</p>
-      <button><Link to='/Signup'>Sign Up</Link></button>
-    </form>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 p-6 max-w-md w-full bg-white rounded-lg shadow-md"
+      >
+        <h2 className="text-2xl font-bold text-center">Login</h2>
+
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={form.username}
+          onChange={handleChange}
+          className="border p-2 w-full rounded"
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          className="border p-2 w-full rounded"
+          required
+        />
+
+        {error && <p className="text-red-500">{error}</p>}
+
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Login
+        </button>
+
+        <p className="text-center text-sm">
+          Don&apos;t have an account yet?{" "}
+          <Link
+            to="/Signup"
+            className="text-blue-500 hover:underline font-semibold"
+          >
+            Sign Up
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
 

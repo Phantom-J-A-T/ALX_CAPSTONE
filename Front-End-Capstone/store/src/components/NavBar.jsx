@@ -9,7 +9,7 @@ export default function NavBar() {
     cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <nav className="flex justify-between bg-gray-900 text-white p-4 border-rounded">
+    <nav className="flex justify-between bg-gray-900 text-white p-4 border rounded-md">
       <h1 className="font-bold text-xl">Prince and Princess Store</h1>
 
       <ul className="flex gap-6 items-center">
