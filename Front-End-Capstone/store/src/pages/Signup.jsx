@@ -29,16 +29,28 @@ function Signup() {
         email: form.email,
         password: form.password,
       });
+
       setSuccess("Account created successfully!");
       setError("");
       console.log("Signup success:", data);
+
+      // Clear form
+      setForm({ username: "", email: "", password: "", confirmPassword: "" });
     } catch (err) {
-      setError(err.detail || "Signup failed. Try again.");
+      if (err.response && err.response.data) {
+        const messages = Object.values(err.response.data).flat().join(" ");
+        setError(messages);
+      } else {
+        setError("Signup failed. Try again.");
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-md mx-auto border border-blue-500 rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 p-6 max-w-md mx-auto border border-blue-500 rounded-md"
+    >
       <input
         type="text"
         name="username"
@@ -79,7 +91,7 @@ function Signup() {
       {success && <p className="text-green-500">{success}</p>}
       <button
         type="submit"
-        className="bg-green-500 text-white px-4 py-2 rounded"
+        className="bg-green-500 text-white px-4 py-2 rounded w-full"
       >
         Sign Up
       </button>
