@@ -83,4 +83,24 @@ export const fetchProductDetails = () => API.get("/products/details/");
 export const createProductDetail = (data) => API.post("/products/details/", data);
 
 
+// ---------------- CART ----------------
 
+// Fetch the current cart
+export const fetchCart = () => API.get("/cart/");
+
+// Fetch all cart items
+export const fetchCartItems = () => API.get("/cart/items/");
+
+// Add product to cart
+export const addToCart = (productId, quantity = 1) =>
+  API.post("/cart/items/", { product: productId, quantity });
+
+// Update a cart item
+export const updateCartItem = (itemId, quantity) =>
+  API.put(`/cart/items/${itemId}/`, { quantity });
+
+// Remove a single cart item
+export const removeCartItem = (itemId) => API.delete(`/cart/items/${itemId}/`);
+
+// Clear the whole cart
+export const clearCart = () => API.delete("/cart/clear/");
