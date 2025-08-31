@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base URL of your Django backend
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "https://phantom.pythonanywhere.com/api",
 });
 
 // Attach token to every request (if available)

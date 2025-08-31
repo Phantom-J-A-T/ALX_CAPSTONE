@@ -6,6 +6,7 @@ function Cart() {
     useCartStore();
 
   const [manualOrder, setManualOrder] = useState("");
+  const [address, setAddress] = useState("");
 
   // Fetch cart from backend when component mounts
   useEffect(() => {
@@ -24,6 +25,8 @@ function Cart() {
     });
     setManualOrder("");
   };
+
+
 
   // Handle WhatsApp confirmation
   const handleWhatsAppOrder = () => {
@@ -125,6 +128,12 @@ function Cart() {
           onChange={(e) => setManualOrder(e.target.value)}
           placeholder="Type product names separated by commas, e.g. Shoes, Bag, Shirt"
           className="border w-full p-2 rounded"
+        />
+        <textarea 
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="INput your address for delivery,leave blank if you are coing for pickup."
+        className="border w-full p-2 rounded"
         />
         <button
           type="submit"
