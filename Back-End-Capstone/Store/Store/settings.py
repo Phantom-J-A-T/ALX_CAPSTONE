@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',  # Added for CORS support
     'rest_framework',  # Django REST Framework
-    'Store',  # Your main application
     'products',  # Products application
     'users',  # Users application
     'cart',  # Cart application
