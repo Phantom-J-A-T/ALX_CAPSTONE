@@ -4,7 +4,7 @@ import {
   addToCartAPI,
   updateCartItem,
   removeCartItem,
-  clearCart as clearCartAPI,
+  clearCartAPI,
 } from "../utils/cart";
 
 export const useCartStore = create((set, get) => ({
