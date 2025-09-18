@@ -53,6 +53,14 @@ export const getProfile = async () => {
 export const fetchProducts = () => API.get("/products/");
 export const fetchProduct = (id) => API.get(`/products/${id}/`);
 
+// ---------------- CATEGORIES ----------------
+export const fetchCategories = () => API.get("/products/categories/");
+export const createCategory = (data) => API.post("/products/categories/", data);
+
+// ---------------- PRODUCT DETAILS ----------------
+export const fetchProductDetails = () => API.get("/products/details/");
+export const createProductDetail = (data) => API.post("/products/details/", data);
+
 // ---------------- CART ----------------
 export const fetchCart = () => API.get("/cart/");
 export const addToCart = (productId, quantity = 1) =>
