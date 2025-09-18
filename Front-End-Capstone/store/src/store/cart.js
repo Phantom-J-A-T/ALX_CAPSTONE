@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import {
-  getCart,
-  addToCartAPI,
+  fetchCart,
+  addToCart,
   updateCartItem,
   removeCartItem,
-  clearCartAPI,
-} from "../utils/cart";
+  clearCart,
+} from "../utils/api";
 
 export const useCartStore = create((set, get) => ({
   cart: { items: [], total_price: 0 },
@@ -14,7 +14,7 @@ export const useCartStore = create((set, get) => ({
   fetchCart: async () => {
     set({ loading: true });
     try {
-      const { data } = await getCart();
+      const { data } = await fetchCart();
       set({ cart: data });
     } catch (err) {
       console.error("Error fetching cart:", err);
@@ -25,8 +25,8 @@ export const useCartStore = create((set, get) => ({
 
   addToCart: async (product, quantity = 1) => {
     try {
-      await addToCartAPI(product.id, quantity); // ✅ call API util
-      await get().fetchCart(); // ✅ refresh cart state
+      await addToCart(product.id, quantity);
+      await get().fetchCart();
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
@@ -52,7 +52,7 @@ export const useCartStore = create((set, get) => ({
 
   clearCart: async () => {
     try {
-      await clearCartAPI();
+      await clearCart();
       await get().fetchCart();
     } catch (error) {
       console.error("Error clearing cart:", error);
