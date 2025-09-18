@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import api from "../utils/api"; // Axios instance with auth token
+import api from "../utils/api";
 
 export const useCartStore = create((set) => ({
   cart: { items: [], total_price: 0 },
@@ -15,8 +15,8 @@ export const useCartStore = create((set) => ({
 
   addToCart: async (productId, quantity = 1) => {
     try {
-      const res = await api.post("/cart/items/", { product: productId, quantity });
-      set({ cart: res.data });
+      const res = await api.post("/cart/items/", { product_id: productId, quantity });
+      set({ cart: res.data }); // backend returns full cart snapshot
     } catch (err) {
       console.error("Add to cart failed:", err);
     }
@@ -33,8 +33,7 @@ export const useCartStore = create((set) => ({
 
   removeFromCart: async (itemId) => {
     try {
-      await api.delete(`/cart/items/${itemId}/`);
-      const res = await api.get("/cart/");
+      const res = await api.delete(`/cart/items/${itemId}/`);
       set({ cart: res.data });
     } catch (err) {
       console.error("Remove from cart failed:", err);
@@ -43,8 +42,8 @@ export const useCartStore = create((set) => ({
 
   clearCart: async () => {
     try {
-      await api.delete("/cart/items/clear/");
-      set({ cart: { items: [], total_price: 0 } });
+      const res = await api.delete("/cart/items/clear/");
+      set({ cart: res.data.cart });
     } catch (err) {
       console.error("Clear cart failed:", err);
     }

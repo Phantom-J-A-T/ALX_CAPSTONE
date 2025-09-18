@@ -38,7 +38,7 @@ export const refreshToken = async () => {
 
 export const getProfile = async () => {
   try {
-    const response = await API.get("/users/user-detail/");
+    const response = await API.get("/users/user-detail/"); // Make sure backend URL exists
     return response.data;
   } catch (error) {
     if (error.response?.status === 401) {
@@ -52,22 +52,15 @@ export const getProfile = async () => {
 // ---------------- PRODUCTS ----------------
 export const fetchProducts = () => API.get("/products/");
 export const fetchProduct = (id) => API.get(`/products/${id}/`);
-
-// ---------------- CATEGORIES ----------------
 export const fetchCategories = () => API.get("/products/categories/");
-export const createCategory = (data) => API.post("/products/categories/", data);
-
-// ---------------- PRODUCT DETAILS ----------------
-export const fetchProductDetails = () => API.get("/products/details/");
-export const createProductDetail = (data) => API.post("/products/details/", data);
 
 // ---------------- CART ----------------
 export const fetchCart = () => API.get("/cart/");
 export const addToCart = (productId, quantity = 1) =>
-  API.post("/cart/items/", { product: productId, quantity });
+  API.post("/cart/items/", { product_id: productId, quantity }); // fixed product_id
 export const updateCartItem = (itemId, quantity) =>
-  API.put(`/cart/items/${itemId}/`, { quantity });
+  API.patch(`/cart/items/${itemId}/`, { quantity }); // use PATCH
 export const removeCartItem = (itemId) => API.delete(`/cart/items/${itemId}/`);
-export const clearCart = () => API.delete("/cart/clear/");
+export const clearCart = () => API.delete("/cart/items/clear/"); // fixed URL
 
 export default API;
