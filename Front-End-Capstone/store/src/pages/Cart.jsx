@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useCartStore } from "../store/cart";
 
 function Cart() {
-  const { cart, fetchCart, updateCartItem, removeFromCart, clearCart, addToCart } =
-    useCartStore();
+  const { cart, fetchCart, updateCartItem, removeFromCart, clearCart, addToCart } = useCartStore();
 
   const [manualOrder, setManualOrder] = useState("");
   const [address, setAddress] = useState("");
 
-  // Fetch cart from backend when component mounts
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
@@ -19,32 +17,25 @@ function Cart() {
     const items = manualOrder.split(",").map((name) => name.trim());
     items.forEach((name) => {
       if (name) {
-        // Add as custom item with price = 0 (you can adjust logic here)
-        addToCart({ id: Date.now() + Math.random(), name, price: 0 }, 1);
+        addToCart(name, 1); // Backend should accept product name or ID
       }
     });
     setManualOrder("");
   };
 
-
-
-  // Handle WhatsApp confirmation
   const handleWhatsAppOrder = () => {
     if (!cart.items || cart.items.length === 0) {
       alert("Your cart is empty.");
       return;
     }
 
-    const phone = "2348109289239"; 
+    const phone = "2348109289239";
     const message = cart.items
-      .map(
-        (item) =>
-          `${item.product?.name || item.name} x${item.quantity} = $${item.subtotal || 0}`
-      )
+      .map((item) => `${item.product?.name || item.name} x${item.quantity} = $${item.subtotal || 0}`)
       .join("\n");
 
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(
-      "Hello, I want to order:\n" + message + `\n\nTotal: $${cart.total_price}`
+      `Hello, I want to order:\n${message}\n\nTotal: $${cart.total_price}\nAddress: ${address || "Pickup"}`
     )}`;
 
     window.open(url, "_blank");
@@ -60,10 +51,7 @@ function Cart() {
 
       <ul className="space-y-3">
         {cart.items.map((item) => (
-          <li
-            key={item.id}
-            className="flex justify-between items-center border-b pb-2"
-          >
+          <li key={item.id} className="flex justify-between items-center border-b pb-2">
             <div>
               <p className="font-semibold">{item.product?.name || item.name}</p>
               <p>
@@ -72,12 +60,9 @@ function Cart() {
               </p>
             </div>
 
-            {/* Quantity Controls */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() =>
-                  updateCartItem(item.id, Math.max(1, item.quantity - 1))
-                }
+                onClick={() => updateCartItem(item.id, Math.max(1, item.quantity - 1))}
                 className="border rounded-md px-2"
               >
                 -
@@ -89,10 +74,7 @@ function Cart() {
               >
                 +
               </button>
-              <button
-                onClick={() => removeFromCart(item.id)}
-                className="text-red-500"
-              >
+              <button onClick={() => removeFromCart(item.id)} className="text-red-500">
                 Remove
               </button>
             </div>
@@ -100,12 +82,8 @@ function Cart() {
         ))}
       </ul>
 
-      {/* Cart Total */}
-      <h3 className="text-lg font-bold mt-4">
-        Total: ${cart.total_price}
-      </h3>
+      <h3 className="text-lg font-bold mt-4">Total: ${cart.total_price}</h3>
 
-      {/* WhatsApp Order Button */}
       <button
         onClick={handleWhatsAppOrder}
         className="mt-3 bg-green-600 text-white px-4 py-2 rounded"
@@ -113,15 +91,10 @@ function Cart() {
         Confirm Order via WhatsApp
       </button>
 
-      {/* Clear Cart */}
-      <button
-        onClick={clearCart}
-        className="mt-3 ml-3 bg-red-600 text-white px-4 py-2 rounded"
-      >
+      <button onClick={clearCart} className="mt-3 ml-3 bg-red-600 text-white px-4 py-2 rounded">
         Clear Cart
       </button>
 
-      {/* Manual Order Form */}
       <form onSubmit={handleManualOrder} className="mt-6 space-y-2">
         <textarea
           value={manualOrder}
@@ -129,16 +102,13 @@ function Cart() {
           placeholder="Type product names separated by commas, e.g. Shoes, Bag, Shirt"
           className="border w-full p-2 rounded"
         />
-        <textarea 
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        placeholder="INput your address for delivery,leave blank if you are coing for pickup."
-        className="border w-full p-2 rounded"
+        <textarea
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Enter delivery address, leave blank for pickup"
+          className="border w-full p-2 rounded"
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
           Add Items to Cart
         </button>
       </form>

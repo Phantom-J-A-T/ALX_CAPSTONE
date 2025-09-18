@@ -4,13 +4,12 @@ import { useCartStore } from "../store/cart";
 
 function ProductCard({ product }) {
   const addToCart = useCartStore((state) => state.addToCart);
-  const [quantity, setQuantity] = useState(1); // start with 1 instead of 0
+  const [quantity, setQuantity] = useState(1);
 
-  // Prevent adding with 0 quantity
   const handleAddToCart = () => {
     if (quantity > 0) {
-      addToCart(product, quantity);
-      setQuantity(1); // reset after adding
+      addToCart(product.id, quantity); // Pass product.id & quantity
+      setQuantity(1);
     } else {
       alert("Please select a quantity before adding to cart.");
     }
@@ -26,10 +25,7 @@ function ProductCard({ product }) {
       <h2 className="font-bold mt-2">{product.name}</h2>
       <p className="text-gray-700">${product.price}</p>
 
-      <Link
-        to={`/productdetail/${product.id}`}
-        className="text-blue-500 block mt-1"
-      >
+      <Link to={`/productdetail/${product.id}`} className="text-blue-500 block mt-1">
         View Details
       </Link>
 

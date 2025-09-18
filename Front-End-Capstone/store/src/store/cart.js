@@ -1,61 +1,52 @@
 import { create } from "zustand";
-import {
-  fetchCart,
-  addToCart,
-  updateCartItem,
-  removeCartItem,
-  clearCart,
-} from "../utils/api";
+import api from "../utils/api"; // Axios instance with auth token
 
-export const useCartStore = create((set, get) => ({
+export const useCartStore = create((set) => ({
   cart: { items: [], total_price: 0 },
-  loading: false,
 
   fetchCart: async () => {
-    set({ loading: true });
     try {
-      const { data } = await fetchCart();
-      set({ cart: data });
+      const res = await api.get("/cart/");
+      set({ cart: res.data });
     } catch (err) {
-      console.error("Error fetching cart:", err);
-    } finally {
-      set({ loading: false });
+      console.error("Fetch cart failed:", err);
     }
   },
 
-  addToCart: async (product, quantity = 1) => {
+  addToCart: async (productId, quantity = 1) => {
     try {
-      await addToCart(product.id, quantity);
-      await get().fetchCart();
-    } catch (error) {
-      console.error("Error adding to cart:", error);
+      const res = await api.post("/cart/items/", { product: productId, quantity });
+      set({ cart: res.data });
+    } catch (err) {
+      console.error("Add to cart failed:", err);
     }
   },
 
   updateCartItem: async (itemId, quantity) => {
     try {
-      await updateCartItem(itemId, quantity);
-      await get().fetchCart();
-    } catch (error) {
-      console.error("Error updating cart:", error);
+      const res = await api.patch(`/cart/items/${itemId}/`, { quantity });
+      set({ cart: res.data });
+    } catch (err) {
+      console.error("Update cart item failed:", err);
     }
   },
 
   removeFromCart: async (itemId) => {
     try {
-      await removeCartItem(itemId);
-      await get().fetchCart();
-    } catch (error) {
-      console.error("Error removing cart item:", error);
+      await api.delete(`/cart/items/${itemId}/`);
+      const res = await api.get("/cart/");
+      set({ cart: res.data });
+    } catch (err) {
+      console.error("Remove from cart failed:", err);
     }
   },
 
   clearCart: async () => {
     try {
-      await clearCart();
-      await get().fetchCart();
-    } catch (error) {
-      console.error("Error clearing cart:", error);
+      await api.delete("/cart/items/clear/");
+      set({ cart: { items: [], total_price: 0 } });
+    } catch (err) {
+      console.error("Clear cart failed:", err);
     }
   },
 }));
