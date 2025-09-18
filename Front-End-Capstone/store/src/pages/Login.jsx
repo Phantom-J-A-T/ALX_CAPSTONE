@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../utils/api";
+import { useAuthStore } from "../store/auth"; // ✅ using store
 
 function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuthStore(); // ✅ from Zustand store
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,15 +14,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(form);
-      localStorage.setItem("access", res.data.access);
-      localStorage.setItem("refresh", res.data.refresh);
+      await login(form.username, form.password); // ✅ handles token + profile
       setError("");
       alert("Login successful!");
-
-      // ✅ Redirect to products or home after login
-      navigate("/Products");
-    } catch (err) {
+      navigate("/Products"); // ✅ redirect after login
+    } catch {
       setError("Invalid username or password");
     }
   };

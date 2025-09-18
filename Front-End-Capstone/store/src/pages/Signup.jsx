@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { signup } from "../utils/api"; // adjust path if needed
+import { signup } from "../utils/api"; // ✅ signup API only
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [form, setForm] = useState({
@@ -8,15 +9,15 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (event) =>
-    setForm({ ...form, [event.target.name]: event.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match!");
@@ -24,7 +25,7 @@ function Signup() {
     }
 
     try {
-      const data = await signup({
+      await signup({
         username: form.username,
         email: form.email,
         password: form.password,
@@ -32,12 +33,12 @@ function Signup() {
 
       setSuccess("Account created successfully!");
       setError("");
-      console.log("Signup success:", data);
-
-      // Clear form
       setForm({ username: "", email: "", password: "", confirmPassword: "" });
+
+      // ✅ redirect to login page after signup
+      setTimeout(() => navigate("/login"), 1000);
     } catch (err) {
-      if (err.response && err.response.data) {
+      if (err.response?.data) {
         const messages = Object.values(err.response.data).flat().join(" ");
         setError(messages);
       } else {
@@ -49,7 +50,7 @@ function Signup() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 p-6 max-w-md mx-auto border border-blue-500 rounded-md"
+      className="space-y-4 p-6 max-w-md mx-auto border border-blue-500 rounded-md mt-10"
     >
       <input
         type="text"
