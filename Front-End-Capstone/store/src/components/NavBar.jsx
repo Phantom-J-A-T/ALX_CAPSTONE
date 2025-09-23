@@ -7,29 +7,31 @@ export default function NavBar() {
   const { cart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
 
-  // calculate total items in cart
+  // Calculate total items in cart
   const totalItems =
     cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+
   return (
-    <nav className="bg-blue-700 text-white p-4 border rounded-md">
+    <nav className="bg-blue-700 text-white p-4 border rounded-md shadow-md">
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-xl">Prince and Princess Store</h1>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-6 items-center">
           <li>
-            <Link to="/" className="hover:font-bold">
+            <Link to="/home" className="hover:font-bold">
               Home
             </Link>
           </li>
           <li>
-            <Link to="/Products" className="hover:font-bold">
+            <Link to="/products" className="hover:font-bold">
               Products
             </Link>
           </li>
           <li className="relative">
-            <Link to="/Cart" className="hover:font-bold">
+            <Link to="/cart" className="hover:font-bold">
               🛒 Cart
             </Link>
             {totalItems > 0 && (
@@ -38,17 +40,13 @@ export default function NavBar() {
               </span>
             )}
           </li>
-          <li>
-            <Link to="/Login" className="hover:font-bold">
-              Login
-            </Link>
-          </li>
         </ul>
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden text-2xl font-bold"
-          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-2xl font-bold focus:outline-none"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
         >
           {isOpen ? "✖" : "☰"}
         </button>
@@ -62,48 +60,39 @@ export default function NavBar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col gap-4 mt-4 md:hidden bg-blue-600 p-4 rounded-lg shadow-lg"
+            className="flex flex-col gap-4 mt-4 md:hidden bg-blue-600/95 backdrop-blur p-4 rounded-lg shadow-lg"
           >
             <li>
               <Link
-                to="/"
-                className="hover:font-bold"
-                onClick={() => setIsOpen(false)}
+                to="/home"
+                className="hover:bg-blue-500 px-2 py-1 rounded"
+                onClick={toggleMenu}
               >
                 Home
               </Link>
             </li>
             <li>
               <Link
-                to="/Products"
-                className="hover:font-bold"
-                onClick={() => setIsOpen(false)}
+                to="/products"
+                className="hover:bg-blue-500 px-2 py-1 rounded"
+                onClick={toggleMenu}
               >
                 Products
               </Link>
             </li>
             <li className="relative">
               <Link
-                to="/Cart"
-                className="hover:font-bold"
-                onClick={() => setIsOpen(false)}
+                to="/cart"
+                className="hover:bg-blue-500 px-2 py-1 rounded"
+                onClick={toggleMenu}
               >
                 🛒 Cart
               </Link>
               {totalItems > 0 && (
-                <span className="absolute -top-2 left-12 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
                   {totalItems}
                 </span>
               )}
-            </li>
-            <li>
-              <Link
-                to="/Login"
-                className="hover:font-bold"
-                onClick={() => setIsOpen(false)}
-              >
-                Login
-              </Link>
             </li>
           </motion.ul>
         )}
