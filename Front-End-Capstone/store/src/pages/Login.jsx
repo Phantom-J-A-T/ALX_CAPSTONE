@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/auth"; // ✅ using store
+import { useAuthStore } from "../store/auth";
 
 function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuthStore(); // ✅ from Zustand store
+  const { login } = useAuthStore();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,11 +15,16 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(form.username, form.password); // ✅ handles token + profile
+      await login(form.username, form.password);
       setError("");
-      alert("Login successful!");
-      navigate("/Products"); // ✅ redirect after login
+      setSuccess(`Welcome back, ${form.username}! 🎉`);
+
+      // Delay redirect so user sees success message
+      setTimeout(() => {
+        navigate("/home"); // ✅ redirect to Home page
+      }, 1200);
     } catch {
+      setSuccess("");
       setError("Invalid username or password");
     }
   };
@@ -51,7 +57,8 @@ function Login() {
           required
         />
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {success && <p className="text-green-600 text-center">{success}</p>}
 
         <button
           type="submit"
