@@ -12,7 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 
 function Layout({ children }) {
   const location = useLocation();
-  const hideLayout = location.pathname === "/"; // hide Navbar/Footer on Login page
+  const hideLayout = location.pathname === "/" || location.pathname === "/signup"; // hide Navbar/Footer on Login page
 
   return (
     <>
