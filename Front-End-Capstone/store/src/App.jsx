@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ProfilePage from "./pages/ProfilePage";
+import ManualOrderFormPage from "./pages/ManualOrderFormPage";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={< ManualOrderFormPage />} />
         </Routes>
       </Layout>
     </Router>
