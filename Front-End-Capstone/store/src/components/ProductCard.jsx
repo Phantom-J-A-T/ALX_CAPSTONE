@@ -23,7 +23,7 @@ function ProductCard({ product }) {
         className="w-full h-40 object-cover"
       />
       <h2 className="font-bold mt-2">{product.name}</h2>
-      <p className="text-gray-700">${product.price}</p>
+      <p className="text-gray-700">₦{product.price}</p>
 
       <Link to={`/productdetail/${product.id}`} className="text-blue-500 block mt-1">
         View Details

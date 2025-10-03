@@ -19,11 +19,11 @@ function Cart() {
     }
 
     const cartMessage = cart.items
-      .map((item) => `${item.product?.name || item.name} x${item.quantity} = $${item.subtotal || 0}`)
+      .map((item) => `${item.product?.name || item.name} x${item.quantity} = ₦${item.subtotal || 0}`)
       .join("\n");
 
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(
-      `Hello, I want to order:\n${cartMessage}\n\nTotal: $${cart.total_price || 0}`
+      `Hello, I want to order:\n${cartMessage}\n\nTotal: ₦${cart.total_price || 0}`
     )}`;
 
     window.open(url, "_blank");
@@ -55,7 +55,7 @@ function Cart() {
             <div>
               <p className="font-semibold">{item.product?.name || item.name}</p>
               <p>
-                ${item.product?.price || item.price || 0} × {item.quantity} = $
+               ₦{item.product?.price || item.price || 0} × {item.quantity} = ₦
                 {item.subtotal || (item.price || 0) * item.quantity}
               </p>
             </div>
@@ -87,7 +87,7 @@ function Cart() {
 
       {/* Total */}
       <h3 className="text-xl font-bold mt-4 text-right">
-        Total: ${cart.total_price || 0}
+        Total: ₦{cart.total_price || 0}
       </h3>
 
       {/* Action Buttons */}
@@ -113,7 +113,7 @@ function Cart() {
           href="/manual-order"
           className="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition"
         >
-          Add Manual Items
+          Add Items manually
         </a>
       </div>
     </div>
