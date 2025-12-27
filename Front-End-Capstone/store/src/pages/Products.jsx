@@ -23,6 +23,10 @@ function Products() {
     loadProducts();
   }, []);
 
+  const filteredProducts = products.filter(product => 
+  product.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
   if (loading) return <p>Loading products...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
