@@ -3,100 +3,55 @@ import { Link } from "react-router-dom";
 import { useCartStore } from "../store/cart";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function NavBar() {
+export default function NavBar({ searchTerm, setSearchTerm }) {
   const { cart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
-
-  // Calculate total items in cart
-  const totalItems =
-    cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
-
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const totalItems = cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <nav className="bg-blue-700 text-white p-4 border rounded-md shadow-md">
-      <div className="flex justify-between items-center">
-        <h1 className="font-bold text-xl">Prince and Princess Store</h1>
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center gap-4">
+        
+        {/* Logo */}
+        <Link to="/home" className="shrink-0">
+          <img src="/Prince and Princess Logo.png" alt="Logo" className="h-12 w-auto" />
+        </Link>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 items-center">
-          <li>
-            <Link to="/home" className="hover:font-bold">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/products" className="hover:font-bold">
-              Products
-            </Link>
-          </li>
+        {/* Search Bar (Native SVG Icon) */}
+        <div className="hidden md:flex flex-1 max-w-md relative group">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <input 
+            type="text"
+            placeholder="Search the collection..."
+            value={searchTerm || ""}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-blue-600/20 transition-all outline-none text-sm text-gray-700"
+          />
+        </div>
+
+        {/* Desktop Links */}
+        <ul className="hidden md:flex gap-6 items-center font-medium text-gray-600">
+          <li><Link to="/home" className="hover:text-blue-700 transition-colors">Home</Link></li>
+          <li><Link to="/products" className="hover:text-blue-700 transition-colors">Products</Link></li>
           <li className="relative">
-            <Link to="/cart" className="hover:font-bold">
-              🛒 Cart
-            </Link>
-            {totalItems > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
-                {totalItems}
-              </span>
-            )}
-          </li>
-        </ul>
-
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden text-2xl font-bold focus:outline-none"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? "✖" : "☰"}
-        </button>
-      </div>
-
-      {/* Mobile Dropdown with Animation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.ul
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col gap-4 mt-4 md:hidden bg-blue-600/95 backdrop-blur p-4 rounded-lg shadow-lg"
-          >
-            <li>
-              <Link
-                to="/home"
-                className="hover:bg-blue-500 px-2 py-1 rounded"
-                onClick={toggleMenu}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/products"
-                className="hover:bg-blue-500 px-2 py-1 rounded"
-                onClick={toggleMenu}
-              >
-                Products
-              </Link>
-            </li>
-            <li className="relative">
-              <Link
-                to="/cart"
-                className="hover:bg-blue-500 px-2 py-1 rounded"
-                onClick={toggleMenu}
-              >
-                🛒 Cart
-              </Link>
+            <Link to="/cart" className="p-2 hover:bg-gray-100 rounded-full flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                <span className="absolute -top-1 -right-1 bg-blue-700 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
                   {totalItems}
                 </span>
               )}
-            </li>
-          </motion.ul>
-        )}
-      </AnimatePresence>
+            </Link>
+          </li>
+        </ul>
+
+        {/* Mobile Toggle */}
+        <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? "✕" : "☰"}
+        </button>
+      </div>
     </nav>
   );
 }
