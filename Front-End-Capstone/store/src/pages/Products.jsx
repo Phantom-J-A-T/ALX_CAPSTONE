@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../utils/api";
 import ProductCard from "../components/ProductCard";
-import Loading from "../components/Loading";
+import SkeletonCard from "../components/SkeletonCard"; // ✅ Import SkeletonCard
 
 function Products({ searchTerm = "" }) {
   const [products, setProducts] = useState([]);
@@ -16,27 +16,24 @@ function Products({ searchTerm = "" }) {
       } catch (err) {
         console.error("Error fetching products:", err);
       } finally {
-        setLoading(false);
+        // Adding a slight delay makes the skeleton transition feel smoother
+        setTimeout(() => setLoading(false), 800);
       }
     };
     loadProducts();
   }, []);
 
-  // 1. Dynamic Categories from API data
   const categories = ["All", ...new Set(products.map(p => p.category))];
 
-  // 2. Multi-stage Filtering (Search + Category)
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = (product.name || "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  if (loading) return <Loading />;
-
   return (
     <div className="max-w-7xl mx-auto p-6">
-      {/* Category Filter Bar */}
+      {/* Category Filter Bar - Always visible for better UX */}
       <div className="flex flex-wrap gap-3 mb-10 justify-center">
         {categories.map((cat) => (
           <button
@@ -52,17 +49,29 @@ function Products({ searchTerm = "" }) {
         ))}
       </div>
 
-      {/* Product Grid */}
+      {/* Product Grid / Skeleton Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {loading ? (
+          // ✅ Show 8 Skeleton Cards while loading
+          [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
+        ) : (
+          filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        )}
       </div>
 
       {/* No Results found */}
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-20">
+      {!loading && filteredProducts.length === 0 && (
+        <div className="text-center py-20 flex flex-col items-center">
+          <span className="text-5xl mb-4">👑</span>
           <p className="text-xl text-gray-400 font-serif">Nothing matches your royal request.</p>
+          <button 
+            onClick={() => setSelectedCategory("All")}
+            className="mt-4 text-royal-gold underline hover:text-royal-blue transition-colors"
+          >
+            Clear filters
+          </button>
         </div>
       )}
     </div>
