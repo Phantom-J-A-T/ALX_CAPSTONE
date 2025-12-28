@@ -126,6 +126,21 @@ export default function Home() {
               Start Delivery Order <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </Link>
           </div>
+          {/* Concierge Call-to-Action */}
+          <section className="max-w-7xl mx-auto px-6 py-20">
+           <div className="bg-white rounded-[3rem] p-12 border border-royal-gold/20 shadow-xl shadow-royal-gold/5 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="text-center md:text-left">
+             <h2 className="text-3xl font-serif text-royal-blue mb-2">Can't find a specific item?</h2>
+              <p className="text-gray-500 italic">Our Royal Concierge is ready to source special requests just for you.</p>
+            </div>
+    <Link 
+      to="/manual-order" // Make sure this matches your route name exactly
+      className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
+    >
+      Make a Special Request
+    </Link>
+  </div>
+</section>
 
         </div>
         {/* Subtle decorative crown icon in background */}

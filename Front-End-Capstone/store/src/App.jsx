@@ -51,6 +51,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<ManualOrderFormPage />} />
+          <Route path="/manual-order" element={<ManualOrderFormPage />} />
         </Routes>
       </Layout>
     </Router>
