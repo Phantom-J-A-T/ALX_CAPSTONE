@@ -51,15 +51,15 @@ function Products({ searchTerm = "" }) { // ✅ Accept searchTerm as a prop
         ) : (
           // Empty State
           <div className="col-span-full text-center py-20">
-            <p className="text-gray-400 text-lg font-serif">No royal items found matching "{searchTerm}"</p>
+            <p className="text-gray-400 text-lg font-serif">No products found matching "{searchTerm}"</p>
           </div>
         )}
       </div>
       {filteredProducts.length === 0 && !loading && (
     <div className="flex flex-col items-center justify-center w-full py-20 text-center">
     <div className="text-6xl mb-4">👑</div>
-    <h3 className="text-xl font-serif text-royal-blue">No Royal Treasures Found</h3>
-    <p className="text-gray-500 mt-2">Try searching for something else in the kingdom.</p>
+    <h3 className="text-xl font-serif text-royal-blue">Product not available</h3>
+    <p className="text-gray-500 mt-2">Try searching for another product.</p>
     <button 
       onClick={() => setSearchTerm("")} 
       className="mt-4 text-royal-gold underline"
