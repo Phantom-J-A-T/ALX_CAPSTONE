@@ -1,5 +1,5 @@
 // src/components/SkeletonCard.jsx
-export default function SkeletonCard() {
+function SkeletonCard() {
   return (
     <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 flex flex-col h-full animate-pulse">
       {/* Image Box Placeholder */}
@@ -22,3 +22,4 @@ export default function SkeletonCard() {
     </div>
   );
 }
+export default SkeletonCard;
