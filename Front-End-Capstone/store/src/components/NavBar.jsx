@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../store/cart";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function NavBar({ searchTerm, setSearchTerm }) {
   const { cart } = useCartStore();
