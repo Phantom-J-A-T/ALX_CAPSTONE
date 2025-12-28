@@ -5,7 +5,7 @@ export default function SkeletonCard() {
       {/* Image Box Placeholder */}
       <div className="aspect-square bg-gray-200" />
 
-      <div className="p-4 flex flex-col flex-grow space-y-4">
+      <div className="p-4 flex flex-col grow space-y-4">
         {/* Title Placeholder */}
         <div className="h-5 bg-gray-200 rounded-md w-3/4" />
         
