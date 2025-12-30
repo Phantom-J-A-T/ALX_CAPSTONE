@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useCartStore } from "../store/cart";
+import { toast } from "../utils/toast";
 
 function ProductCard({ product }) {
   const addToCart = useCartStore((state) => state.addToCart);
   const [quantity, setQuantity] = useState(1);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (quantity > 0) {
-      addToCart(product.id, quantity);
-      setQuantity(1);
+      const result = await addToCart(product.id, quantity);
+      if (result.success) {
+        toast.success(`${product.name} added to cart!`);
+        setQuantity(1);
+      } else {
+        toast.error(result.error || "Failed to add to cart");
+      }
     } else {
-      alert("Please select a quantity before adding to cart.");
+      toast.warning("Please select a quantity before adding to cart.");
     }
   };
 

@@ -1,14 +1,22 @@
 import React, { useEffect } from "react";
 import { useCartStore } from "../store/cart";
+import { toast } from "../utils/toast";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Cart() {
-  const { cart, fetchCart, updateCartItem, removeFromCart, clearCart } = useCartStore();
+  const { cart, loading, error, fetchCart, updateCartItem, removeFromCart, clearCart, clearError } = useCartStore();
 
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      clearError();
+    }
+  }, [error, clearError]);
 
   const phone = "2347066003577";
 
@@ -75,15 +83,27 @@ function Cart() {
                   {/* Quantity Controls */}
                   <div className="flex items-center gap-4 bg-gray-50 px-3 py-2 rounded-xl">
                     <button
-                      onClick={() => updateCartItem(item.id, Math.max(1, item.quantity - 1))}
+                      onClick={async () => {
+                        const result = await updateCartItem(item.id, Math.max(1, item.quantity - 1));
+                        if (!result.success) {
+                          toast.error(result.error);
+                        }
+                      }}
                       className="w-8 h-8 flex items-center justify-center bg-white rounded-md shadow-sm text-royal-blue hover:text-royal-gold transition-colors"
+                      disabled={loading}
                     >
                       −
                     </button>
                     <span className="font-bold w-4 text-center">{item.quantity}</span>
                     <button
-                      onClick={() => updateCartItem(item.id, item.quantity + 1)}
+                      onClick={async () => {
+                        const result = await updateCartItem(item.id, item.quantity + 1);
+                        if (!result.success) {
+                          toast.error(result.error);
+                        }
+                      }}
                       className="w-8 h-8 flex items-center justify-center bg-white rounded-md shadow-sm text-royal-blue hover:text-royal-gold transition-colors"
+                      disabled={loading}
                     >
                       +
                     </button>
@@ -92,8 +112,16 @@ function Cart() {
                   <div className="text-right min-w-[100px]">
                     <p className="font-bold text-gray-900 text-lg">₦{(item.subtotal || (item.price || 0) * item.quantity).toLocaleString()}</p>
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={async () => {
+                        const result = await removeFromCart(item.id);
+                        if (result.success) {
+                          toast.success("Item removed from cart");
+                        } else {
+                          toast.error(result.error);
+                        }
+                      }}
                       className="text-xs text-red-400 hover:text-red-600 uppercase tracking-widest mt-1 font-bold"
+                      disabled={loading}
                     >
                       Remove
                     </button>

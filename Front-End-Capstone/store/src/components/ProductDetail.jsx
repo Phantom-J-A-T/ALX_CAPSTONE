@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchProduct } from "../utils/api";
-import { useCartStore } from "../store/cart"; // For adding to cart
-import Loading from "../components/Loading"; // Your logo loader
+import { useCartStore } from "../store/cart";
+import { toast } from "../utils/toast";
+import Loading from "../components/Loading";
 import { motion } from "framer-motion";
 
 function ProductDetail() {
@@ -109,7 +110,15 @@ function ProductDetail() {
             </div>
 
             <button
-              onClick={() => addToCart(product.id, quantity)}
+              onClick={async () => {
+                const result = await addToCart(product.id, quantity);
+                if (result.success) {
+                  toast.success(`${product.name} added to cart!`);
+                  setQuantity(1);
+                } else {
+                  toast.error(result.error || "Failed to add to cart");
+                }
+              }}
               className="grow bg-royal-blue text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
             >
               Add to Royal Cart
