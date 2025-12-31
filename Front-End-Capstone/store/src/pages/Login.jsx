@@ -45,8 +45,15 @@ function Login() {
           Enter Store
         </button>
       </form>
+      <Link 
+              to="/signup" 
+              className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
+            >
+              Don't have an account yet? Sign up
+            </Link>
     </div>
   );
 }
+
 
 export default Login;

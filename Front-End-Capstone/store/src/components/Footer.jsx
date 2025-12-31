@@ -17,7 +17,7 @@ export default function Footer() {
               className="h-16 mb-4 brightness-0 invert" // Makes logo white
             />
             <p className="text-blue-100 text-sm italic text-center md:text-left leading-relaxed">
-              Bringing the palace's finest selection of food, wine, and lifestyle essentials 
+              Bringing the finest selection of food, wine, and lifestyle essentials 
               directly to your doorstep.
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function Footer() {
           {/* Contact Column */}
           <div className="flex flex-col items-center md:items-end">
             <h4 className="font-serif text-royal-gold text-lg mb-4 underline decoration-royal-gold/30 underline-offset-8">
-              Royal Concierge
+              Contact the Developer
             </h4>
             <div className="text-sm text-blue-100 space-y-3 text-center md:text-right">
               <p className="flex items-center justify-center md:justify-end gap-2">

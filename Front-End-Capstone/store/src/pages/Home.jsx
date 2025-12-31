@@ -47,7 +47,8 @@ export default function Home() {
               A Taste of <span className="italic">Royalty</span> in Every Order.
             </h1>
             <p className="text-gray-600 text-lg max-w-lg leading-relaxed">
-              From the finest wines and fresh harvests to premium home appliances. 
+              From the finest wines and fresh foodstuff to premium home appliances.
+              Your one stop store for everything.
               Experience convenience designed for the Prince and Princess in you.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
@@ -61,7 +62,7 @@ export default function Home() {
                 to="/manual-order"
                 className="bg-white text-royal-blue border border-gray-200 px-10 py-4 rounded-2xl font-bold hover:border-royal-gold transition-all"
               >
-                Special Requests
+                Special Product Requests
               </Link>
             </div>
           </motion.div>
@@ -95,7 +96,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {loading ? (
-            [...Array(4)].map((_, i) => <SkeletonCard key={i} />)
+            [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
           ) : (
             featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -113,7 +114,7 @@ export default function Home() {
             <h2 className="text-3xl font-serif text-white mb-4">Royal Pickup</h2>
             <p className="text-blue-100 mb-6 leading-relaxed">
               Order your groceries and essentials now, and have them ready for a swift, 
-              contactless pickup at our palace gates.
+              contactless pickup at our Store front.
             </p>
             <Link to="/products" className="text-royal-gold font-bold group-hover:translate-x-2 flex items-center gap-2 transition-transform">
               Start Pickup Order →
@@ -137,7 +138,7 @@ export default function Home() {
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="bg-white rounded-[3rem] p-12 border border-royal-gold/20 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl font-serif text-royal-blue mb-2">Can't find a specific item?</h2>
+              <h2 className="text-3xl font-serif text-royal-blue mb-2">Can't find the product you want?</h2>
               <p className="text-gray-500 italic">Our Royal Concierge is ready to source special requests just for you.</p>
             </div>
             <Link 

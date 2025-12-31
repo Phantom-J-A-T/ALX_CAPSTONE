@@ -64,7 +64,7 @@ function Cart() {
                   <span className="font-bold">{item.quantity}</span>
                   <button onClick={() => updateCartItem(item.id, item.quantity + 1)} className="p-2 border rounded">+</button>
                 </div>
-                <button onClick={() => removeFromCart(item.id)} className="text-red-500 text-xs">Remove</button>
+                <button onClick={() => removeFromCart(item.id)} className="text-red-500 text-xs border rounded-sm bg-red-300 drop-shadow-sm">Remove</button>
               </div>
             ))}
           </div>
@@ -79,7 +79,7 @@ function Cart() {
               onClick={handleWhatsAppOrder}
               className="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3"
             >
-              Confirm on WhatsApp
+              Confirm Order on WhatsApp
             </button>
           </div>
         </div>

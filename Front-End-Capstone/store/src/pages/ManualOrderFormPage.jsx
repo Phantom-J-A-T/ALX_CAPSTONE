@@ -32,7 +32,7 @@ function ManualOrderFormPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
       <div className="w-full max-w-lg bg-white shadow-md rounded-xl p-6">
         <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-          Place a Manual Order
+          Place a Manual Order or Request a special Product
         </h1>
         <p className="text-gray-600 mb-4 text-center">
           Add products manually and specify your delivery address.
