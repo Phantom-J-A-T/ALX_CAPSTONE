@@ -1,43 +1,29 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/auth";
-import Loading from "../components/Loading"; // ✅ Import your loading component
+import React, { useState } from "react";
 
 function Login() {
-  const [form, setForm] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // ✅ Local loading state
-  const navigate = useNavigate();
-  const { login } = useAuthStore();
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true); // ✅ Start Loading
-    setError("");
-    
-    try {
-      await login(form.username, form.password);
-      setSuccess(`Welcome back, ${form.username}! 🎉`);
-      setTimeout(() => navigate("/home"), 1200);
-    } catch {
-      setSuccess("");
-      setError("Invalid credentials. Please check your details.");
-      setIsLoading(false); // ❌ Stop Loading so they can try again
-    }
-  };
-
-  // ✅ Render Loading Component if authenticating
-  if (isLoading && !error) {
-    return <Loading />;
-  }
+  const [count, setCount] = useState(0);
 
   return (
-    <div className="min-h-screen flex bg-[#FAF9F6]">
-      {/* ... Form and Visual Side code remains the same as previous step ... */}
-      {/* Ensure the form uses onSubmit={handleSubmit} */}
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FAF9F6] text-[#0B4A8C]">
+      <div className="p-10 bg-white shadow-xl rounded-lg border-t-4 border-[#C5A059] text-center">
+        <h1 className="text-4xl font-serif mb-4">Prince & Princess Store</h1>
+        <p className="text-gray-600 mb-6">If you can see this, the React Router is working!</p>
+        
+        <div className="space-y-4">
+          <button 
+            onClick={() => setCount(count + 1)}
+            className="px-6 py-2 bg-[#0B4A8C] text-white rounded-full hover:bg-opacity-90 transition-all"
+          >
+            Test State: {count}
+          </button>
+          
+          <div className="flex flex-col gap-2 text-sm">
+            <p className="text-green-600 font-bold">✓ Vite Build Successful</p>
+            <p className="text-green-600 font-bold">✓ Layout Wrapper Active</p>
+            <p className="text-amber-600">Next Step: Reconnect Auth Store</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
