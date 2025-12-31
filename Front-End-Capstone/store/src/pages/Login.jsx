@@ -30,7 +30,10 @@ function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAF9F6] p-4">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-xl border-t-4 border-[#C5A059] w-full max-w-md">
-        <h2 className="text-3xl font-serif text-[#0B4A8C] mb-6 text-center">Royal Login</h2>
+        <h2 className="text-3xl font-serif text-[#0B4A8C] mb-6 text-center">
+          Prince and Princess Store
+                 Login
+           </h2>
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
         <input 
           type="text" name="username" placeholder="Username" required

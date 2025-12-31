@@ -16,7 +16,7 @@ export default function Footer() {
               alt="Logo" 
               className="h-10 md:h-12 w-auto rounded-md"
             />
-            <p className="text-blue-100 text-sm italic text-center md:text-left leading-relaxed">
+            <p className="text-royal-gold text-sm italic text-center md:text-left leading-relaxed">
               Bringing the finest selection of food, wine, and lifestyle essentials 
               directly to your doorstep.
             </p>
