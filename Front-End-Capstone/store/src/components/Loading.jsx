@@ -30,7 +30,7 @@ function Loading() {
         className="mb-8"
       >
         <img 
-          src="/Prince and Princess Logo.png" 
+          src="/Logo.png" 
           alt="Loading" 
           className="h-32 w-auto drop-shadow-xl"
         />
