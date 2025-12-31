@@ -14,7 +14,7 @@ export default function Footer() {
             <img 
               src="/Logo.png" 
               alt="Logo" 
-              cclassName="h-10 md:h-12 w-auto rounded-md"
+              className="h-10 md:h-12 w-auto rounded-md"
             />
             <p className="text-blue-100 text-sm italic text-center md:text-left leading-relaxed">
               Bringing the finest selection of food, wine, and lifestyle essentials 
