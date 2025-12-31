@@ -7,13 +7,14 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
   const [isOpen, setIsOpen] = useState(false);
   const totalItems = cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
+
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center gap-4">
         
         {/* Logo */}
         <Link to="/home" className="shrink-0">
-          <img src="/Prince and Princess Logo.png" alt="Logo" className="h-12 w-auto" />
+          <img src="./assets/Prince and Princess Logo.png" alt="Logo" className="h-12 w-auto" />
         </Link>
 
         {/* Search Bar (Native SVG Icon) */}

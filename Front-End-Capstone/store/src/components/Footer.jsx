@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="flex flex-col items-center md:items-start">
             <img 
-              src="/Prince and Princess Logo.png" 
+              src="./assets/Prince and Princess Logo.png" 
               alt="Logo" 
               className="h-16 mb-4 brightness-0 invert" // Makes logo white
             />
