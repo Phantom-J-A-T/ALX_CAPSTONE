@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
-import Loading from "../components/Loading"; // ✅ Import your loading component
 
 function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // ✅ Local loading state
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
@@ -15,29 +13,38 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // ✅ Start Loading
+    setIsLoading(true);
     setError("");
-    
     try {
       await login(form.username, form.password);
-      setSuccess(`Welcome back, ${form.username}! 🎉`);
-      setTimeout(() => navigate("/home"), 1200);
-    } catch {
-      setSuccess("");
-      setError("Invalid credentials. Please check your details.");
-      setIsLoading(false); // ❌ Stop Loading so they can try again
+      navigate("/home");
+    } catch (err) {
+      setError("Invalid credentials. Please try again.");
+      setIsLoading(false);
     }
   };
 
-  // ✅ Render Loading Component if authenticating
-  if (isLoading && !error) {
-    return <Loading />;
-  }
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-[#FAF9F6] text-[#0B4A8C]">Authenticating...</div>;
 
   return (
-    <div className="min-h-screen flex bg-[#FAF9F6]">
-      {/* ... Form and Visual Side code remains the same as previous step ... */}
-      {/* Ensure the form uses onSubmit={handleSubmit} */}
+    <div className="min-h-screen flex items-center justify-center bg-[#FAF9F6] p-4">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-xl border-t-4 border-[#C5A059] w-full max-w-md">
+        <h2 className="text-3xl font-serif text-[#0B4A8C] mb-6 text-center">Royal Login</h2>
+        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
+        <input 
+          type="text" name="username" placeholder="Username" required
+          className="w-full p-3 mb-4 border rounded"
+          onChange={(e) => setForm({...form, username: e.target.value})}
+        />
+        <input 
+          type="password" name="password" placeholder="Password" required
+          className="w-full p-3 mb-6 border rounded"
+          onChange={(e) => setForm({...form, password: e.target.value})}
+        />
+        <button className="w-full py-3 bg-[#0B4A8C] text-white rounded-full font-bold hover:bg-opacity-90">
+          Enter Store
+        </button>
+      </form>
     </div>
   );
 }

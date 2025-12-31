@@ -3,7 +3,7 @@ import { login, getProfile } from "../utils/api";
 
 export const useAuthStore = create((set) => ({
   user: null,
-  // Safe check for localStorage during initial load
+  // Safely access localStorage only in the browser
   token: typeof window !== "undefined" ? localStorage.getItem("access") : null,
 
   login: async (username, password) => {
@@ -13,7 +13,6 @@ export const useAuthStore = create((set) => ({
       if (typeof window !== "undefined") {
         localStorage.setItem("access", access);
       }
-
       const profile = await getProfile();
       set({ user: profile });
     } catch (err) {
@@ -24,17 +23,7 @@ export const useAuthStore = create((set) => ({
   logout: () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
     }
     set({ user: null, token: null });
-  },
-
-  fetchProfile: async () => {
-    try {
-      const profile = await getProfile();
-      set({ user: profile });
-    } catch (err) {
-      console.error("Error fetching profile:", err);
-    }
   },
 }));
