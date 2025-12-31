@@ -13,8 +13,13 @@ export default function Home() {
     const loadFeatured = async () => {
       try {
         const res = await fetchProducts();
-        // We only want to show the first 4 premium items on the home page
-        setFeaturedProducts(res.data.slice(0, 4));
+        // Safety Check: Ensure res.data is an array before slicing
+        if (res && Array.isArray(res.data)) {
+          setFeaturedProducts(res.data.slice(0, 4));
+        } else if (res && Array.isArray(res)) {
+          // Some APIs return the array directly without a .data wrapper
+          setFeaturedProducts(res.slice(0, 4));
+        }
       } catch (err) {
         console.error("Error loading featured products", err);
       } finally {
@@ -53,7 +58,7 @@ export default function Home() {
                 Shop the Collection
               </Link>
               <Link
-                to="/order"
+                to="/manual-order"
                 className="bg-white text-royal-blue border border-gray-200 px-10 py-4 rounded-2xl font-bold hover:border-royal-gold transition-all"
               >
                 Special Requests
@@ -99,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Service Experience (The Pickup/Delivery Section) */}
+      {/* Service Experience */}
       <section className="bg-royal-blue py-20 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 relative z-10">
           
@@ -111,7 +116,7 @@ export default function Home() {
               contactless pickup at our palace gates.
             </p>
             <Link to="/products" className="text-royal-gold font-bold group-hover:translate-x-2 flex items-center gap-2 transition-transform">
-              Start Pickup Order <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+              Start Pickup Order →
             </Link>
           </div>
 
@@ -123,27 +128,27 @@ export default function Home() {
               straight to your doorstep with priority speed.
             </p>
             <Link to="/products" className="text-royal-gold font-bold group-hover:translate-x-2 flex items-center gap-2 transition-transform">
-              Start Delivery Order <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+              Start Delivery Order →
             </Link>
           </div>
-          {/* Concierge Call-to-Action */}
-          <section className="max-w-7xl mx-auto px-6 py-20">
-           <div className="bg-white rounded-[3rem] p-12 border border-royal-gold/20 shadow-xl shadow-royal-gold/5 flex flex-col md:flex-row items-center justify-between gap-8">
+        </div>
+
+        {/* Concierge Section */}
+        <section className="max-w-7xl mx-auto px-6 py-20">
+          <div className="bg-white rounded-[3rem] p-12 border border-royal-gold/20 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-center md:text-left">
-             <h2 className="text-3xl font-serif text-royal-blue mb-2">Can't find a specific item?</h2>
+              <h2 className="text-3xl font-serif text-royal-blue mb-2">Can't find a specific item?</h2>
               <p className="text-gray-500 italic">Our Royal Concierge is ready to source special requests just for you.</p>
             </div>
-    <Link 
-      to="/manual-order" // Make sure this matches your route name exactly
-      className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
-    >
-      Make a Special Request
-    </Link>
-  </div>
-</section>
+            <Link 
+              to="/manual-order" 
+              className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
+            >
+              Make a Special Request
+            </Link>
+          </div>
+        </section>
 
-        </div>
-        {/* Subtle decorative crown icon in background */}
         <div className="absolute -bottom-10 -right-10 opacity-5 text-[300px] pointer-events-none font-serif">👑</div>
       </section>
     </div>
