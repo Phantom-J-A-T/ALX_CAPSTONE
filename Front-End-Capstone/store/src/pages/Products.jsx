@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../utils/api";
 import ProductCard from "../components/ProductCard";
-import SkeletonCard from "../components/SkeletonCard"; // ✅ Import SkeletonCard
+import SkeletonCard from "../components/SkeletonCard";
 
 function Products({ searchTerm = "" }) {
   const [products, setProducts] = useState([]);
@@ -12,28 +12,43 @@ function Products({ searchTerm = "" }) {
     const loadProducts = async () => {
       try {
         const res = await fetchProducts();
-        setProducts(res.data);
+        // Safety Check: Ensure data is an array
+        if (res && Array.isArray(res.data)) {
+          setProducts(res.data);
+        } else if (Array.isArray(res)) {
+          setProducts(res);
+        }
       } catch (err) {
         console.error("Error fetching products:", err);
       } finally {
-        // Adding a slight delay makes the skeleton transition feel smoother
         setTimeout(() => setLoading(false), 800);
       }
     };
     loadProducts();
   }, []);
 
-  const categories = ["All", ...new Set(products.map(p => p.category))];
+  // SAFE CATEGORY EXTRACTION: Handles both string and object categories
+  const categories = ["All", ...new Set(products.map(p => {
+    if (typeof p.category === 'object' && p.category !== null) {
+      return p.category.name; // Use the name if it's an object
+    }
+    return p.category || "General"; // Fallback for null/undefined
+  }))].filter(Boolean); // Remove any null values
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = (product.name || "").toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+    // Safety check for product name
+    const matchesSearch = (product.name || "").toLowerCase().includes((searchTerm || "").toLowerCase());
+    
+    // Safety check for category matching
+    const categoryName = typeof product.category === 'object' ? product.category?.name : product.category;
+    const matchesCategory = selectedCategory === "All" || categoryName === selectedCategory;
+    
     return matchesSearch && matchesCategory;
   });
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      {/* Category Filter Bar - Always visible for better UX */}
+      {/* Category Filter Bar */}
       <div className="flex flex-wrap gap-3 mb-10 justify-center">
         {categories.map((cat) => (
           <button
@@ -49,10 +64,9 @@ function Products({ searchTerm = "" }) {
         ))}
       </div>
 
-      {/* Product Grid / Skeleton Grid */}
+      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {loading ? (
-          // ✅ Show 8 Skeleton Cards while loading
           [...Array(8)].map((_, i) => <SkeletonCard key={i} />)
         ) : (
           filteredProducts.map((product) => (

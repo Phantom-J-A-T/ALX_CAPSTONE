@@ -73,7 +73,7 @@ export default function Home() {
           >
             <div className="absolute -inset-4 bg-royal-gold/20 rounded-[3rem] blur-3xl" />
             <img
-              src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070"
+              src="https://fmcg-viet.com/soft-drinks/"
               alt="Luxury Shopping"
               className="relative rounded-[2.5rem] shadow-2xl border-4 border-white object-cover h-[500px] w-full"
             />
