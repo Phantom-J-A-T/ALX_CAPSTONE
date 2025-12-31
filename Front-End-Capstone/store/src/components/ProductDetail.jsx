@@ -18,11 +18,11 @@ function ProductDetail() {
     const loadProduct = async () => {
       try {
         const res = await fetchProduct(id);
-        setProduct(res.data);
+        // SAFETY: Check if res has a data property or is the object itself
+        setProduct(res.data || res);
       } catch (err) {
         console.error("Error fetching product:", err);
       } finally {
-        // Keeping the logo loader visible briefly for brand impact
         setTimeout(() => setLoading(false), 800);
       }
     };
@@ -30,6 +30,7 @@ function ProductDetail() {
   }, [id]);
 
   if (loading) return <Loading />;
+  
   if (!product) return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <h2 className="text-2xl font-serif text-royal-blue">Item Not Found</h2>
@@ -39,9 +40,13 @@ function ProductDetail() {
     </div>
   );
 
+  // SAFE CATEGORY EXTRACTION (Prevents Error #31)
+  const categoryName = typeof product.category === 'object' 
+    ? product.category?.name 
+    : product.category || "Premium Selection";
+
   return (
     <div className="bg-[#FAF9F6] min-h-screen pb-20">
-      {/* Navigation Header */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <button 
           onClick={() => navigate(-1)} 
@@ -54,7 +59,6 @@ function ProductDetail() {
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
         
-        {/* Left: Premium Image Container */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -67,7 +71,6 @@ function ProductDetail() {
           />
         </motion.div>
 
-        {/* Right: Product Details & Actions */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,23 +78,24 @@ function ProductDetail() {
         >
           <div className="mb-6">
             <span className="bg-royal-gold/10 text-royal-gold px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
-              {product.category || "Premium Selection"}
+              {/* FIXED: Uses the extracted string instead of raw object */}
+              {categoryName}
             </span>
             <h1 className="text-4xl md:text-5xl font-serif text-royal-blue mt-4 mb-2">
               {product.name}
             </h1>
             <p className="text-3xl font-bold text-gray-900">
-              ₦{Number(product.price).toLocaleString()}
+              {/* FIXED: Wrapped in Number() for safety */}
+              ₦{Number(product.price || 0).toLocaleString()}
             </p>
           </div>
 
           <div className="prose prose-blue text-gray-600 mb-10">
             <p className="text-lg leading-relaxed">
-              {product.description || "Exquisite quality carefully selected for our royal customers. Perfect for home, gifting, or elevating your lifestyle."}
+              {product.description || "Exquisite quality carefully selected for our royal customers."}
             </p>
           </div>
 
-          {/* Cart Control Section */}
           <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
             <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-2 sm:w-40">
               <button 
@@ -119,13 +123,12 @@ function ProductDetail() {
                   toast.error(result.error || "Failed to add to cart");
                 }
               }}
-              className="grow bg-royal-blue text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+              className="grow bg-royal-blue text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-900 transition-all shadow-xl active:scale-[0.98]"
             >
               Add to Royal Cart
             </button>
           </div>
 
-          {/* Dynamic Specs Section */}
           <div className="mt-12 grid grid-cols-2 gap-6 p-6 bg-white rounded-2xl border border-gray-50 shadow-sm">
             <div>
               <p className="text-xs font-bold text-gray-400 uppercase tracking-tighter">Availability</p>
@@ -143,7 +146,7 @@ function ProductDetail() {
             )}
             <div>
               <p className="text-xs font-bold text-gray-400 uppercase tracking-tighter">Product ID</p>
-              <p className="text-gray-800 font-mono text-sm">#{product.id.toString().padStart(5, '0')}</p>
+              <p className="text-gray-800 font-mono text-sm">#{product.id ? product.id.toString().padStart(5, '0') : "00000"}</p>
             </div>
           </div>
         </motion.div>
