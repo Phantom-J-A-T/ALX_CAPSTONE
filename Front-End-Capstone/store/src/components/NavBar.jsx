@@ -13,7 +13,7 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
         
         {/* Logo */}
         <Link to="/home" className="shrink-0">
-          <img src="/Logo.png" alt="Logo" className="h-10 md:h-12 w-auto" />
+          <img src="/Logo.png" alt="Logo" className="h-10 md:h-12 w-auto rounded-md" />
         </Link>
 
         {/* Search Bar - Desktop View */}
