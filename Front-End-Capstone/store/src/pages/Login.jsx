@@ -42,14 +42,18 @@ function Login() {
           className="w-full p-3 mb-6 border rounded"
           onChange={(e) => setForm({...form, password: e.target.value})}
         />
-        <button className="w-full py-3 bg-[#0B4A8C] text-white rounded-full font-bold hover:bg-opacity-90">
-          Enter Store
+        <div className="flex flex-col gap-4">
+         <button className="w-full py-3 bg-[#0B4A8C] text-white rounded-full font-bold hover:bg-opacity-90">
+         Enter Store
         </button>
-        <Link to="/signup"  
-              className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
-            >
+
+         <Link
+           to="/signup"
+            className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg text-center opacity-90 hover:opacity-100"
+          >
               Don't have an account yet? <strong>Sign Up</strong>
-            </Link>
+        </Link>
+        </div>
       </form>
       
     </div>
