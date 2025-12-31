@@ -41,7 +41,7 @@ export default function Home() {
             className="lg:w-1/2 space-y-8 z-10"
           >
             <div className="inline-block px-4 py-1 rounded-full bg-royal-gold/10 text-royal-gold text-xs font-bold tracking-widest uppercase">
-              Est. 2024 • Premium Quality
+              Here to Satisfy Your Royal Needs
             </div>
             <h1 className="text-5xl lg:text-7xl font-serif text-royal-blue leading-tight">
               A Taste of <span className="italic">Royalty</span> in Every Order.
