@@ -74,7 +74,7 @@ export default function Home() {
           >
             <div className="absolute -inset-4 bg-royal-gold/20 rounded-[3rem] blur-3xl" />
             <img
-              src="https://fmcg-viet.com/soft-drinks/"
+              src="/soft-drink.png"
               alt="Luxury Shopping"
               className="relative rounded-[2.5rem] shadow-2xl border-4 border-white object-cover h-[500px] w-full"
             />
