@@ -14,7 +14,7 @@ export default function Footer() {
             <img 
               src="/Logo.png" 
               alt="Logo" 
-              className="h-16 mb-4 brightness-0 invert rounded-md" // Makes logo white
+              cclassName="h-10 md:h-12 w-auto rounded-md"
             />
             <p className="text-blue-100 text-sm italic text-center md:text-left leading-relaxed">
               Bringing the finest selection of food, wine, and lifestyle essentials 
