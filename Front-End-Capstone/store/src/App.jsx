@@ -38,7 +38,7 @@ function App() {
 
   return (
     <Router>
-      <Toast />
+      {/* <Toast /> */}
       <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}>
         <Routes>
           <Route path="/" element={<Login />} />
