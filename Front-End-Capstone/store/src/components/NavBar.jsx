@@ -14,7 +14,7 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
         
         {/* Logo */}
         <Link to="/home" className="shrink-0">
-          <img src="./assets/Prince and Princess Logo.png" alt="Logo" className="h-12 w-auto" />
+          <img src="/Prince and Princess Logo.png" alt="Logo" className="h-12 w-auto" />
         </Link>
 
         {/* Search Bar (Native SVG Icon) */}
