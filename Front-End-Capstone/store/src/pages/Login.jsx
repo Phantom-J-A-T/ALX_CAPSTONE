@@ -45,16 +45,15 @@ function Login() {
         <button className="w-full py-3 bg-[#0B4A8C] text-white rounded-full font-bold hover:bg-opacity-90">
           Enter Store
         </button>
-      </form>
-      <Link 
-              to="/signup" 
+        <Link to="/signup"  
               className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg"
             >
-              Don't have an account yet? Sign up
+              Don't have an account yet? <strong>Sign Up</strong>
             </Link>
+      </form>
+      
     </div>
   );
 }
-
 
 export default Login;
