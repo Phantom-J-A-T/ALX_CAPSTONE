@@ -52,7 +52,7 @@ function Login() {
 
          <Link
            to="/signup"
-            className="whitespace-nowrap bg-royal-gold text-white px-8 py-4 rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg text-center opacity-90 hover:opacity-100"
+            className="bg-royal-gold text-white px-8 py-4 leading-snug rounded-2xl font-bold hover:bg-yellow-600 transition-all shadow-lg text-center opacity-90 hover:opacity-100"
           >
               Don't have an account yet? <strong>Sign Up</strong>
         </Link>
