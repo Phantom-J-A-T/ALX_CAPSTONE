@@ -1,11 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCartStore } from "../store/cart";
 
 export default function NavBar({ searchTerm, setSearchTerm }) {
   const { cart } = useCartStore();
   const [showSearch, setShowSearch] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const totalItems = cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+
+  // New handler for search input
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // If user starts typing and isn't on the products page, redirect them
+    if (value.trim() !== "" && location.pathname !== "/products") {
+      navigate("/products");
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
@@ -25,14 +39,13 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
             type="text"
             placeholder="Search the collection..."
             value={searchTerm || ""}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
             className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-full outline-none text-sm"
           />
         </div>
 
-        {/* Mobile View Navigation (Home, Products, Bag, Search Toggle) */}
+        {/* Links & Cart */}
         <div className="flex items-center gap-4 text-gray-600 font-medium text-sm md:text-base">
-          {/* Mobile Search Toggle */}
           <button onClick={() => setShowSearch(!showSearch)} className="md:hidden p-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </button>
@@ -59,7 +72,7 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
             autoFocus
             placeholder="Search for items..."
             value={searchTerm || ""}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
             className="w-full p-3 bg-gray-100 rounded-xl outline-none text-sm border focus:border-blue-300"
           />
         </div>

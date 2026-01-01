@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -36,12 +36,14 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/products" element={<Products />} />
+          
+          {/* UPDATED: Pass searchTerm prop here */}
+          <Route path="/products" element={<Products searchTerm={searchTerm} />} />
+          
           <Route path="/productdetail/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/checkout" element={<Checkout />} />
-          {/* Support both path variants */}
           <Route path="/manual-order" element={<ManualOrderFormPage />} />
           <Route path="/order" element={<ManualOrderFormPage />} />
         </Routes>
