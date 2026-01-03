@@ -1,62 +1,52 @@
-from django.shortcuts import render
-from .serializers import UserSerializer
-from rest_framework import generics
 from django.contrib.auth.models import User
+from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .serializers import UserSerializer
 
-# Create your views here.
+# --- CLASS BASED VIEWS ---
+
 class UserSignUpView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny] # Allow anyone to register
     http_method_names = ["post"]
-
-    def perform_create(self, serializer):
-        serializer.save()  # This will call the create method in the serializer
 
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ["get"]
-
-    def get_queryset(self):
-        return User.objects.all()  # This will return all users in the database
-
-# A more Detailed version of the User List
+    permission_classes = [IsAuthenticated] # Usually restricted to staff
+    
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ["get"]
-    lookup_field = "pk"  # Allows retrieval by primary key (id)
-
-    def get_object(self):
-        return super().get_object()  # This will retrieve the user by the primary key
+    permission_classes = [IsAuthenticated]
+    lookup_field = "pk"
 
 class UserUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ["put", "patch"]
-    lookup_field = "pk"  # Allows update by primary key (id)
+    permission_classes = [IsAuthenticated]
+    lookup_field = "pk"
 
-    def get_object(self):
-        return super().get_object()  # This will retrieve the user by the primary key
-    
 class UserDeleteView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ["delete"]
-    lookup_field = "pk"  # Allows deletion by primary key (id)
+    permission_classes = [IsAuthenticated]
+    lookup_field = "pk"
 
-    def get_object(self):
-        return super().get_object()  # This will retrieve the user by the primary key
-    
+# --- FUNCTION BASED VIEWS ---
+
 @api_view(['POST'])
+@permission_classes([AllowAny]) # Explicitly allow public signup
 def signup(request):
     username = request.data.get("username")
     email = request.data.get("email")
     password = request.data.get("password")
+
+    if not username or not password:
+        return Response({"error": "Username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
 
     if User.objects.filter(username=username).exists():
         return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
@@ -64,22 +54,8 @@ def signup(request):
     user = User.objects.create_user(username=username, email=email, password=password)
     return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
-def signup(request):
-    username = request.data.get("username")
-    email = request.data.get("email")
-    password = request.data.get("password")
-
-    if User.objects.filter(username=username).exists():
-        return Response({"error": "Username already exists"}, status=400)
-
-    user = User.objects.create_user(username=username, email=email, password=password)
-    return Response({"message": "User created successfully!"})
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) 
 def get_user_profile(request):
-    user = request.user
-    serializer = UserSerializer(user)
+    serializer = UserSerializer(request.user)
     return Response(serializer.data)
